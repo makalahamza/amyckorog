@@ -2086,19 +2086,20 @@ if (clearBtn) {
 /*=======================SOMA ZAID =============================*/
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.history-text').forEach(p => {
-    const fullText = p.innerHTML.trim().replace(/\s+/g, ' '); // Safisha space
-    const words = fullText.split(/\s+/);
+    const fullHTML = p.innerHTML.trim();         // keep highlights
+    const fullText = p.textContent.trim();       // plain text for preview
 
+    const words = fullText.split(/\s+/);
     if (words.length <= 20) {
-      p.dataset.full = fullText;
-      p.dataset.short = fullText;
+      p.dataset.full = fullHTML;
+      p.dataset.short = fullHTML;
       return;
     }
 
     const shortText = words.slice(0, 20).join(' ') + '...';
-    p.dataset.full = fullText;
+    p.dataset.full = fullHTML;
     p.dataset.short = shortText;
-    p.innerHTML = shortText;
+    p.innerText = shortText;  // show preview initially
   });
 
   document.querySelectorAll('.read-more-btn').forEach(button => {
@@ -2106,16 +2107,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const p = button.previousElementSibling;
 
       if (p.innerHTML === p.dataset.short) {
-        p.innerHTML = p.dataset.full;
+        p.innerHTML = p.dataset.full;       // show full text with highlights
         button.textContent = 'Onyesha kidogo ⌃';
       } else {
-        p.innerHTML = p.dataset.short;
+        p.innerText = p.dataset.short;      // collapse preview
         button.textContent = 'Soma zaidi ⌄';
       }
     });
   });
 });
-
 /* ===============================
 
    NEWS FUNCTIONS
@@ -2198,6 +2198,7 @@ function formatDate(date) {
 </body>
 
 </html>
+
 
 
 
